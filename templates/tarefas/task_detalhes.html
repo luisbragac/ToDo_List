@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Tarefa - Gerenciador de Tarefas</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">
+            <span class="back-arrow">←</span> Voltar
+        </a>
+    
+        <div class="task-detail-container">
+            <div class="task-detail {% if tarefas.prioridade == 'Alta' %}priority-high{% endif %}
+            {% if tarefas.prioridade == 'Média' %}priority-medium{% endif %}
+            {% if tarefas.prioridade == 'Baixa' %}priority-low{% endif %}">
+                <div class="task-header">
+                    <h2>{{ tarefas.titulo }}</h2>
+                    <span class="{% if tarefas.prioridade == 'Alta' %}tag-priority-high{% endif %}
+                    {% if tarefas.prioridade == 'Média' %}tag-priority-medium{% endif %}
+                    {% if tarefas.prioridade == 'Baixa' %}tag-priority-low{% endif %}">{{ tarefas.get_prioridade_display }} Prioridade</span>
+                </div>
+                
+                <div class="task-info">
+                    <div class="info-group">
+                        <h3>Descrição</h3>
+                        {% if tarefas.descricao %}
+                        <p>{{ tarefas.descricao }}</p>
+                        {% else %}
+                        <p>Nenhuma descrição fornecida</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="info-group">
+                        <h3>Data</h3>
+                        <p>{{ tarefas.data|date:"d/m/Y" }}</p>
+                    </div>
+            
+                    <div class="info-group">
+                        <h3>Status</h3>
+                        {% if not tarefas.concluida %}
+                        <p>Em Andamento</p>
+                        {% else %}
+                        <p>Concluída</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="task-actions">
+                    <!--Fazer a funcionalidade de editar a tarefa-->
+
+                    <!---<button class="action-button edit">Editar</button>--->
+
+                    <form action="{% url 'marcar_concluida' tarefas.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="action-button complete">
+                            Marcar como Concluída
+                        </button>
+                    </form>
+                    
+                    <form action="{% url 'excluir_task' tarefas.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="action-button delete" onclick="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+                            Excluir
+                        </button>
+                    </form>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

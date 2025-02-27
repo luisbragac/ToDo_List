@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas Hexagonal</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <nav class="auth-nav">
+            {% if user.is_authenticated %}
+            <a href="/logout" class="auth-link">Logout</a>
+            {% endif %}
+        </nav>
+        
+        <header>
+            <h1>Lista de Tarefas</h1>
+            <p class="subtitle">Organize suas atividades de forma hexagonal</p>
+        </header>
+
+        <div class="honeycomb">
+            {% for tarefa in tarefas %}
+            {% if tarefa.prioridade == 'Alta' %}
+            <a href="detalhe/task_{{tarefa.id}}/" class="task-hex">
+                <div class="task-content priority-high">
+                    <h3>{{ tarefa.titulo }}</h3>
+                    {% if not tarefa.concluida %}
+                    <span class="tag-priority-high">Alta Prioridade</span>
+                    {% else %}
+                    <span class="tag-priority-high">Tarefa Concluída</span>
+                    {% endif %}
+                </div>
+            </a>
+            {% endif %}
+            {% endfor %}
+
+            {% for tarefa in tarefas %}
+            {% if tarefa.prioridade == 'Média' %}
+            <a href="detalhe/task_{{tarefa.id}}/" class="task-hex">
+                <div class="task-content priority-medium">
+                    <h3>{{ tarefa.titulo }}</h3>
+                    {% if not tarefa.concluida %}
+                    <span class="tag-priority-medium">Média Prioridade</span>
+                    {% else %}
+                    <span class="tag-priority-medium">Tarefa Concluída</span>
+                    {% endif %}
+
+                </div>
+            </a>
+            {% endif %}
+            {% endfor %}
+            
+            {% for tarefa in tarefas %}
+            {% if tarefa.prioridade == 'Baixa' %}
+            <a href="detalhe/task_{{tarefa.id}}/" class="task-hex">
+                <div class="task-content priority-low">
+                    <h3>{{ tarefa.titulo }}</h3>
+                    {% if not tarefa.concluida %}
+                    <span class="tag-priority-low">Baixa Prioridade</span>
+                    {% else %}
+                    <span class="tag-priority-low">Tarefa Concluída</span>
+                    {% endif %}
+                </div>
+            </a>
+            {% endif %}
+            {% endfor %}
+
+            <a href="criar_task" class="task-hex add-task">
+                <div class="task-content">
+                    <span class="plus">+</span>
+                    <p>Adicionar Tarefa</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gerenciador de Tarefas</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">
+            <span class="back-arrow">←</span> Voltar
+        </a>
+        
+        <div class="auth-container">
+            <div class="auth-box">
+                <h2>Login</h2>
+                <form class="auth-form" method="POST" action="{% url 'login' %}" >
+                    {% csrf_token %}
+                    {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}   
+                    </div>
+                    {% endfor %}
+                    <button type="submit" class="auth-button">Entrar</button>
+                </form>
+                <p class="auth-redirect">
+                    Não tem uma conta? <a href="/cadastro">Cadastre-se</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
