@@ -8,7 +8,7 @@ class Tarefa(models.Model):
         ('Baixa', 'Baixa'),
     ]
 
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     titulo = models.CharField(max_length=50)
 
